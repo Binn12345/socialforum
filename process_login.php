@@ -1,15 +1,7 @@
 <?php
 session_start();
 // Database connection parameters
-$host = '127.0.0.1';
-$username = 'root';
-$password = '';
-$database = 'nativeconn';
-
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
-
-// var_dump($conn);die;
+include 'dbconnection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
@@ -35,17 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 function user_details($username, $password)
 {
-    $host = '127.0.0.1';
-    $username = 'root';
-    $password = '';
-    $database = 'nativeconn';
-
-    $conn = new mysqli($host, $username, $password, $database);
-    if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+    // Database connection parameters
+    include 'dbconnection.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = isset($_POST['username']) ? $_POST['username'] : $username ;
+        $password = isset($_POST['password']) ? $_POST['password'] : $password ;
 
         $query = "SELECT * FROM users WHERE username=? AND password=?";
         $stmt = $conn->prepare($query);
@@ -56,16 +43,11 @@ function user_details($username, $password)
             if ($result->num_rows === 1) {
                 // Authentication successful
                 $user_data = $result->fetch_assoc();
+                // Fetch the user data as an array
                 $_SESSION['user_authenticated'] = true;
                 $_SESSION['user_data'] = $user_data;
                 $hashedUserKey = password_hash($user_data['userkey'], PASSWORD_BCRYPT);
-                // Fetch the user data as an associative array
-                // var_dump($user_data);die;
-
-                // echo '<pre>', print_r($user_data, true) ?: 'undefined index', '</pre>';die;
-
-                // You can now use $user_data to access user information
-                // Example: $user_id = $user_data['id'];
+            
 
                 // Redirect to the login page
                 header("Location: login/?=$hashedUserKey");
