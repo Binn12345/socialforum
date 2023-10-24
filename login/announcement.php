@@ -30,8 +30,11 @@ if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !
     <?php 
        if($user_data['userkey'] == '1' || $user_data['userkey'] == '3' )
        {
-         include 'admin/bodyyield.php';
+         include 'admin/announcementbodyyield.php';
+       }else{  
+         include 'admin/404bodyyield.php';
        }
+
     ?>
     
 

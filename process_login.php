@@ -1,33 +1,5 @@
 <?php
 session_start();
-
-// Check if the form has been submitted
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $username = $_POST['username'];
-//     $password = $_POST['password'];
-
-//     // Replace with your actual username and password validation logic
-//     $validUsername = 'superadmin';
-//     $validPassword = 'admin';
-
-//     if ($username === $validUsername && $password === $validPassword) {
-//         // Authentication successful
-//         $_SESSION['user_authenticated'] = true;
-//         header('Location: login/');
-//         exit;
-//     } else {
-//         // Authentication failed, redirect back to the login page with an error message
-//         header('Location: index.php?error=1');
-//         exit;
-//     }
-// } else {
-//     // Handle cases where the form wasn't submitted
-//     header('Location: index.php');
-//     exit;
-// }
-
-
-
 // Database connection parameters
 $host = '127.0.0.1';
 $username = 'root';
@@ -86,14 +58,17 @@ function user_details($username, $password)
                 $user_data = $result->fetch_assoc();
                 $_SESSION['user_authenticated'] = true;
                 $_SESSION['user_data'] = $user_data;
+                $hashedUserKey = password_hash($user_data['userkey'], PASSWORD_BCRYPT);
                 // Fetch the user data as an associative array
-                
+                // var_dump($user_data);die;
+
+                // echo '<pre>', print_r($user_data, true) ?: 'undefined index', '</pre>';die;
 
                 // You can now use $user_data to access user information
                 // Example: $user_id = $user_data['id'];
 
                 // Redirect to the login page
-                header('Location: login/');
+                header("Location: login/?=$hashedUserKey");
                 exit;
             } else {
                 header('Location: index.php?error=1');

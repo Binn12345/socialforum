@@ -5,10 +5,16 @@
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-    <a class="nav-link " href="index.html">
-      <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
+  <?php if($user_data['userkey'] == '1' || $user_data['userkey'] == '3')
+      {
+        $hashedUserKey = password_hash($user_data['userkey'], PASSWORD_BCRYPT);
+        echo'
+          <a class="nav-link " href="index.php?access='.$hashedUserKey.'">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>';
+      }
+  ?>
   </li><!-- End Dashboard Nav -->
     
 
