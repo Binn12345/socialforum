@@ -2,10 +2,16 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
 <div class="d-flex align-items-center justify-content-between">
-  <a href="index.html" class="logo d-flex align-items-center">
-    <img src="../assets/img/logo.png" alt="">
-    <span class="d-none d-lg-block">SForum</span>
-  </a>
+<?php if($user_data['userkey'] == '1' || $user_data['userkey'] == '3' || $user_data['userkey'] == '2')
+      {
+        $hashedUserKey = password_hash($user_data['userkey'], PASSWORD_BCRYPT);
+        echo '
+        <a href="index.php?access='.$hashedUserKey.'" class="logo d-flex align-items-center">
+          <img src="../assets/img/logo.png" alt="">
+          <span class="d-none d-lg-block">SForum</span>
+        </a>';
+      }
+  ?>
   <i class="bi bi-list toggle-sidebar-btn"></i>
 </div><!-- End Logo -->
 
@@ -213,7 +219,7 @@
         </li>
 
         <li>
-          <a class="dropdown-item d-flex align-items-center" href="logout.php">
+          <a class="dropdown-item d-flex align-items-center" id="logout">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>
           </a>

@@ -24,7 +24,6 @@
 
 <!-- Template Main CSS File -->
 <link href="assets/css/style.css" rel="stylesheet">
-
 <!-- =======================================================
 * Template Name: NiceAdmin
 * Updated: Sep 18 2023 with Bootstrap v5.3.2

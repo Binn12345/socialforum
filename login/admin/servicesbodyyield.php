@@ -1,4 +1,4 @@
-<?php include './modal/dynamicyield.php' ?>
+<?php include './components/dynamicyield.php' ?>
 
 <div class="pagetitle">
   <h1>Services</h1>

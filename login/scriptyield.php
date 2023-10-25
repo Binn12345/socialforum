@@ -15,6 +15,85 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  $(document).ready(function() {
+      $('#save').on('click', function() {
+        var formData = $('#create').serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: 'process/process_form.php', 
+            data: formData,
+            success: function(response) {
+          
+              var jsonResponse = JSON.parse(response);
+
+              var status = jsonResponse.status;
+
+              // Check if the response indicates success (you can customize this part)
+              if (status == 'success') {
+                  // clear all fields
+                  $('#create')[0].reset();
+                  const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        background: '#59b259',
+                        color: '#ffff',
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.resumeTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Account has been successfully created.'
+                    })
+              } else {
+                  // Handle other responses or errors
+                  const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        background: '#f64341',
+                        color: '#ffff',
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.resumeTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Password validation failed. Make sure passwords match and are at least 8 characters long.'
+                    })
+              }
+            }
+        });
+
+      });
+
+
+      $('#logout').on('click',function(e){
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to sign out",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes!'
+          
+        }).then((result) => {
+          if (result.isConfirmed) {
+              window.location = "logout.php";
+          }
+        })
+      })
+
+  });
   $('#filter').on('click',function(){
     
   });
