@@ -1,5 +1,8 @@
-<?php include './components/dynamicyield.php' ?>
-
+<?php 
+  include './components/dynamicyield.php';
+  include 'function/data_display.php';
+  include 'helpers/helper.php';
+?>
 <div class="pagetitle">
   <h1>Services</h1>
   <nav>
@@ -51,53 +54,23 @@
                 Add User Account
           </button>
           <!-- Table with stripped rows -->
-          <table class="table datatable" id="myTable">
-            <thead>
+          <table id="myTable" class="display">
+          <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Age</th>
-                <th scope="col">Start Date</th>
+                  <th style="width: 5%; text-align: center">#</th>
+                  <th>Username</th>
+                  <th>Role</th>
               </tr>
-            </thead>
-            <!-- <tbody>
+          </thead>
+          <tbody>
+            <?php foreach ($data as $row): ?>
               <tr>
-                <th scope="row">1</th>
-                <td>Brandon Jacob</td>
-                <td>Designer</td>
-                <td>28</td>
-                <td>2016-05-25</td>
+                  <td style="text-align: center"><?php echo $row['id']; ?></td>
+                  <td><?php echo $row['username']; ?></td>
+                  <td><?php echo role($row['userkey']); ?></td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Bridie Kessler</td>
-                <td>Developer</td>
-                <td>35</td>
-                <td>2014-12-05</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Ashleigh Langosh</td>
-                <td>Finance</td>
-                <td>45</td>
-                <td>2011-08-12</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>Angus Grady</td>
-                <td>HR</td>
-                <td>34</td>
-                <td>2012-06-11</td>
-              </tr>
-              <tr>
-                <th scope="row">5</th>
-                <td>Raheem Lehner</td>
-                <td>Dynamic Division Officer</td>
-                <td>47</td>
-                <td>2011-04-19</td>
-              </tr>
-            </tbody> -->
+            <?php endforeach; ?>
+          </tbody>
           </table>
        
 

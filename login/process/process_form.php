@@ -1,35 +1,60 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the form data from the AJAX request
-    //  echo '<pre>', var_dump($_POST, true) ?: 'undefined index', '</pre>';
-    $role        = $_POST['userrole'];
+    // Get form data from the AJAX request
+    $role = $_POST['userrole'];
     $newusername = $_POST['addusername'];
-    $newPassword = $_POST['newpassword']; // Use a unique name for the New Password input field
-    $confirmPassword = $_POST['confirmpassword']; // Use a unique name for the Confirm Password input field
-    // echo '<pre>', var_dump($username,$newPassword,$confirmPassword, true) ?: 'undefined index', '</pre>';
+    $newPassword = $_POST['newpassword'];
+    $confirmPassword = $_POST['confirmpassword'];
+
     // Perform validation, e.g., checking if passwords match and meet criteria
     if ($newPassword !== $confirmPassword || strlen($newPassword) < 8) {
         echo json_encode(array('status' => 'error'));
-        // echo "Password validation failed. Make sure passwords match and are at least 8 characters long.";
     } else {
-        // Insert the data into the user_accounts table (make sure to set up your database connection)
+        // Include the database connection file
+        // Include the database connection
         include '../../dbconnection.php';
 
-        // Sanitize data before insertion (for better security, use prepared statements)
-        $newusername = $conn->real_escape_string($newusername);
-        $newPassword = password_hash($newPassword, PASSWORD_BCRYPT); // Hash the password for security
-
-        // Insert the data into the table
-        $sql = "INSERT INTO users (username, password, idkey , userkey) VALUES ('$newusername', '$newPassword','1' , '$role')";
-        if ($conn->query($sql) === TRUE) {
-            echo json_encode(array('status' => 'success'));
-            // echo "User account created successfully.";
-        } else {
-                 // Return a JSON response indicating failure
-            echo json_encode(array('status' => 'error'));
-            // echo "Error: " . $sql . "<br>" . $conn->error;
+        // Check if the connection was successful
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
 
+        // Generate a unique idkey using PHP's UUID function
+        $idkey = uniqid();
+
+        // Prepare the SQL statement
+        $sql = "INSERT INTO users (idkey, username, password, userkey) VALUES (?, ?, ?, ?)";
+
+        // Create a prepared statement
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt) {
+            // Bind parameters to the statement
+            $stmt->bind_param("ssss", $idkey, $newusername, $newPassword, $role);
+
+            // Execute the statement
+            $result = $stmt->execute();
+
+            // Check for errors
+            if ($result) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Record inserted successfully.'
+                ];
+               
+                echo json_encode($response);
+            } else {
+                
+                echo "Error: " . $stmt->error;
+            }
+
+            // Close the statement
+            $stmt->close();
+        } else {
+            echo "Error: " . $conn->error;
+        }
+
+        // Close the database connection
         $conn->close();
     }
 } else {

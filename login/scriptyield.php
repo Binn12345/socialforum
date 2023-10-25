@@ -12,32 +12,36 @@
 
 <!-- Template Main JS File -->
 <script src="../assets/js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   $(document).ready(function() {
-      $('#save').on('click', function() {
+    var table = $('#myTable').DataTable();
+    
+    $('#save').on('click', function() {
         var formData = $('#create').serialize();
 
         $.ajax({
             type: 'POST',
-            url: 'process/process_form.php', 
+            url: 'process/process_form.php',
             data: formData,
             success: function(response) {
-          
+
               var jsonResponse = JSON.parse(response);
 
               var status = jsonResponse.status;
+              var message = jsonResponse.message;
+            
+                if (status === 'success') {
+                    // Show a SweetAlert for success
 
-              // Check if the response indicates success (you can customize this part)
-              if (status == 'success') {
-                  // clear all fields
-                  $('#create')[0].reset();
-                  const Toast = Swal.mixin({
+                    // console.log(table);
+                    const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
-                        timer: 4000,
+                        timer: 2000,
                         background: '#59b259',
                         color: '#ffff',
                         timerProgressBar: true,
@@ -47,12 +51,18 @@
                         }
                     })
                     Toast.fire({
-                        icon: 'success',
-                        title: 'Account has been successfully created.'
+                        icon: status,
+                        title: message
                     })
-              } else {
-                  // Handle other responses or errors
-                  const Toast = Swal.mixin({
+
+                    // Reset the form
+                    $('#create')[0].reset();
+                    location.reload();
+                    // Reload the DataTable to display the updated data
+                    // table.ajax.reload();
+                } else if (status === 'error') {
+                    // Handle other response statuses (e.g., error)
+                    const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
@@ -61,22 +71,21 @@
                         color: '#ffff',
                         timerProgressBar: true,
                         didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.resumeTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            toast.addEventListener('mouseenter', Swal.resumeTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
                         }
-                    })
+                    });
+
                     Toast.fire({
                         icon: 'warning',
                         title: 'Password validation failed. Make sure passwords match and are at least 8 characters long.'
-                    })
-              }
-            }
+                    });
+                }
+            },
         });
-
-      });
-
-
-      $('#logout').on('click',function(e){
+    });
+    
+    $('#logout').on('click',function(e){
         Swal.fire({
           title: 'Are you sure?',
           text: "You want to sign out",
@@ -93,8 +102,7 @@
         })
       })
 
-  });
-  $('#filter').on('click',function(){
-    
-  });
-</script>
+});
+
+
+    </script>

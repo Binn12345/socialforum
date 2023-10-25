@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="addusername" id='addusername'>
+                      <input type="text" class="form-control" placeholder="name@example.com" name="addusername" id='addusername'>
                       <label for="floatingInput">Username</label>
                   </div>
                 </div>
@@ -28,13 +28,13 @@
                 </P>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                      <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com" name="newpassword" id='newpassword'>
+                      <input type="password" class="form-control" placeholder="name@example.com" name="newpassword" id='newpassword'>
                       <label for="floatingInput">New Password</label>
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                      <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com" name="confirmpassword" id='confirmpassword'>
+                      <input type="password" class="form-control" placeholder="name@example.com" name="confirmpassword" id='confirmpassword'>
                       <label for="floatingInput">Confirm Password</label>
                   </div>
                 </div>
