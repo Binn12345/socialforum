@@ -1,4 +1,7 @@
 <?php
+
+    include '../../dbconnection.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data from the AJAX request
     $role = $_POST['userrole'];
@@ -11,8 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(array('status' => 'error'));
     } else {
         // Include the database connection file
-        // Include the database connection
-        include '../../dbconnection.php';
+      
 
         // Check if the connection was successful
         if ($conn->connect_error) {
@@ -24,14 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Prepare the SQL statement
         $sql = "INSERT INTO users (idkey, username, password, userkey) VALUES (?, ?, ?, ?)";
-
         // Create a prepared statement
         $stmt = $conn->prepare($sql);
 
         if ($stmt) {
             // Bind parameters to the statement
             $stmt->bind_param("ssss", $idkey, $newusername, $newPassword, $role);
-
             // Execute the statement
             $result = $stmt->execute();
 

@@ -24,7 +24,7 @@
               <label class="col-form-label">User Type</label>
             </div>
             <div class="col-xxl-8 col-xl-8">
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" aria-label="Default select example" id="usertype">
                   <option selected="">- All Users -</option>
                   <option value="1">Superadmin</option>
                   <option value="3">Admin</option>
@@ -55,27 +55,17 @@
           </button>
           <!-- Table with stripped rows -->
           <table id="myTable" class="display">
-          <thead>
-              <tr>
-                  <th style="width: 5%; text-align: center">#</th>
-                  <th>Username</th>
-                  <th>Role</th>
-              </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($data as $row): ?>
-              <tr>
-                  <td style="text-align: center"><?php echo $row['id']; ?></td>
-                  <td><?php echo $row['username']; ?></td>
-                  <td><?php echo role($row['userkey']); ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center">#</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
           </table>
-       
-
           <!-- End Table with stripped rows -->
-
         </div>
       </div>
 

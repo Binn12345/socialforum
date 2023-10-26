@@ -16,8 +16,20 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  $(document).ready(function() {
-    var table = $('#myTable').DataTable();
+$(document).ready(function() {
+   
+    $('#myTable').DataTable({
+        "serverSide": true,
+        "ajax": {
+            "url": "process/datalist.php",
+            "dataSrc": "data" 
+        },
+        "columns": [
+            { "data": "id" },
+            { "data": "username" },
+            { "data": "userkey" }
+        ]
+    });
     
     $('#save').on('click', function() {
         var formData = $('#create').serialize();
@@ -57,9 +69,9 @@
 
                     // Reset the form
                     $('#create')[0].reset();
-                    location.reload();
+                    // location.reload();
                     // Reload the DataTable to display the updated data
-                    // table.ajax.reload();
+                    $('#myTable').DataTable().ajax.reload();
                 } else if (status === 'error') {
                     // Handle other response statuses (e.g., error)
                     const Toast = Swal.mixin({
@@ -86,6 +98,7 @@
     });
     
     $('#logout').on('click',function(e){
+
         Swal.fire({
           title: 'Are you sure?',
           text: "You want to sign out",
@@ -100,9 +113,25 @@
               window.location = "logout.php";
           }
         })
-      })
+
+    })
+
+    $('#filter').on('click',function(e){
+
+        var formdata = {
+            id : $("#usertype").val()
+        }
+    
+        $.ajax({
+            type: 'POST',
+             url: 'process/datalist.php',
+            data: formdata,
+            success: function(response) {
+            }
+        })
+
+    });
 
 });
 
-
-    </script>
+</script>

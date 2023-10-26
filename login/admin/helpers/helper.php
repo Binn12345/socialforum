@@ -10,7 +10,7 @@
 
         try {
 
-            echo $return[$role] ?? "Undefined index";
+            echo $return[$role] ?? "";
 
         } catch (Exception $e) {
 
@@ -19,6 +19,8 @@
         }
 
     }
+
+    
 
    
 
